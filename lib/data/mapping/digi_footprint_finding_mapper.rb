@@ -8,6 +8,7 @@ class DigiFootprintFindingMapper
 
     orig_vuln_id = specific_details["scanner_identifier"]
 
+    parsed_vuln_id = orig_vuln_id.gsub("-","_").delete_suffix("s") #Carter note: removing an "s" suffix is required as well to get some to match . is there a way we could do this with the regex stuff below?  
     orig_description = specific_details["description"]
     orig_recommendation = specific_details["recommendation"]
     out = {}
@@ -17,7 +18,7 @@ class DigiFootprintFindingMapper
     _mapping_data(orig_description,orig_recommendation).each do |map|
       map[:matches].each do |match|
         next unless match[:source] == orig_source 
-        if match[:vuln_id] =~ orig_vuln_id
+        if match[:vuln_id] =~ parsed_vuln_id
           out = {
             scanner_identifier: orig_vuln_id,
             source: "#{orig_source} (Kenna Normalized)",
@@ -38,7 +39,9 @@ class DigiFootprintFindingMapper
         source: orig_source,
       }.stringify_keys.merge(specific_details)
     end
-
+    print ("THIS IS THE OUT VARIBLE IN dgi_footprint_finding_mapper")
+    print (out)
+    print ("END OF OUT")
   out 
   end
 

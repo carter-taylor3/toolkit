@@ -18,7 +18,16 @@ module CloudExposureMapping
   def field_mapping_for_cloud_exposures
     {
       'application-server-software' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"domain", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          },
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Exposed App Server Software: #{x["firstObservation"]["configuration"]["applicationServerSoftware"]}" } },
@@ -41,7 +50,12 @@ module CloudExposureMapping
       },
       'ethernet-ip-servers' => {}, 
       'expired-when-scanned-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Expired Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
@@ -49,7 +63,14 @@ module CloudExposureMapping
         'vuln_def' => [ ]
       },
       'ftp-servers' => {}, 
-      'ftps-servers' => {}, 
+      'ftps-servers' => {
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ]
+      }, 
       '-healthy-certificate-advertisements' => {
         'asset' => [],
         'vuln' => [
@@ -59,7 +80,12 @@ module CloudExposureMapping
         'vuln_def' => [ ]
       },
       'insecure-signature-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Insecure Signature Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
@@ -71,7 +97,6 @@ module CloudExposureMapping
       'internal-ip-address-advertisements'=> {
         'asset' => [],
         'vuln' => [
-          
           { action: "proc", target: "details", proc: lambda{|x| 
             "Detected Internal IP advertisement with configuration: #{JSON.pretty_generate(x["firstObservation"]["configuration"])}" } },
 
@@ -80,9 +105,21 @@ module CloudExposureMapping
           
         ]
       },
-      'load-balancers' => {},
+      'load-balancers' => {
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ]
+      },
       'long-expiration-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Long Expiration Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
@@ -97,7 +134,12 @@ module CloudExposureMapping
       'my-sql-servers' => {}, 
       'net-bios-name-servers' => {},
       'pop3-servers' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Detected Pop3 Server with configuration: #{JSON.pretty_generate(x["firstObservation"]["configuration"])}" } },  
@@ -106,9 +148,25 @@ module CloudExposureMapping
           
         ]
       }, 
-      'rdp-servers' => {},
+      'rdp-servers' => {
+        'asset' => [
+          {
+            action:"proc", target:"domain", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          },
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ]
+      },
       'self-signed-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Self Signed Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
@@ -127,7 +185,12 @@ module CloudExposureMapping
         ]
       },
       'short-key-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Short Key Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
@@ -146,7 +209,12 @@ module CloudExposureMapping
       'unencrypted-ftp-servers' => {},
       'web-servers' => {},
       'wildcard-certificate-advertisements' => {
-        'asset' => [],
+        'asset' => [
+          {
+            action:"proc", target:"hostname", proc: lambda{|x|
+              "#{x["firstObservation"]["configuration"]["certificate"]["subjectName"]}" }
+          }
+        ],
         'vuln' => [
           { action: "proc", target: "details", proc: lambda{|x| 
             "Wildcard Certificate: #{JSON.pretty_generate(x["certificate"])}" } },
